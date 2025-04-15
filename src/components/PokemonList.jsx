@@ -7,8 +7,9 @@ const PokemonList = ({ pokemons = [] }) => {
             {pokemons?.map((pokemon, index) => {
                 return (
                     <PokemonCard
-                        name = {pokemon.name}
                         key={`pokemon-${pokemon.name}`}
+                        name = {pokemon.name}
+                        image={pokemon.sprites?.other?.['official-artwork']?.front_default}
                         //{...pokemon}
                     />
                 )

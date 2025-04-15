@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col } from 'antd';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemons } from './api';
+import { getPokemons, getPokemonDetails } from './api';
 import { setPokemons } from './actions/index';
 import logo from './statics/logo.svg';
 import './App.css';
@@ -16,7 +16,12 @@ function App() {
     const fetchPokemons = async () => {
       try {
         const pokemonsRes = await getPokemons();
-        dispatch(setPokemons(pokemonsRes));
+        const pokemonsDetails = await Promise.all(
+          pokemonsRes.map(async (pokemon) => 
+            await getPokemonDetails(pokemon)
+        ));
+        dispatch(setPokemons(pokemonsDetails));
+
       } catch (error) {
         // Handle the error appropriately here
         console.error('Error fetching Pokemon:', error);
@@ -27,8 +32,8 @@ function App() {
     fetchPokemons();
 
   }, []);
-  // First commit
-  
+
+
   return (
     <div className="App">
       <Col span={4} offset={10}>
