@@ -1,10 +1,12 @@
+//src/App.js
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col } from 'antd';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemons, getPokemonDetails } from './api';
-import { setPokemons } from './actions/index';
+import { getPokemons } from './api';
+import { getPokemonWithDetails } from './actions/index';
 import logo from './statics/logo.svg';
 import './App.css';
 
@@ -16,11 +18,7 @@ function App() {
     const fetchPokemons = async () => {
       try {
         const pokemonsRes = await getPokemons();
-        const pokemonsDetails = await Promise.all(
-          pokemonsRes.map(async (pokemon) => 
-            await getPokemonDetails(pokemon)
-        ));
-        dispatch(setPokemons(pokemonsDetails));
+        dispatch(getPokemonWithDetails(pokemonsRes));
 
       } catch (error) {
         // Handle the error appropriately here
