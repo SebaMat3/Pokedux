@@ -1,5 +1,8 @@
+//src/reducers/pokemons.js
+
 const initialState = {
     pokemons: [],
+    loading: false,
 };
 
 export const pokemonsReducer = (state = initialState, action) => {
@@ -8,6 +11,11 @@ export const pokemonsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pokemons: action.payload,
+            };
+        case 'SET_LOADING':
+            return {
+                ...state,
+                loading: action.payload,
             };
         default:
             return state;
