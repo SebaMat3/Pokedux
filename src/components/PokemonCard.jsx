@@ -24,7 +24,13 @@ const PokemonCard = ({ name, image, abilities, types, id, favorite }) => {
             extra={<StarButton isFavorite={ favorite } onClick={ handleOnFavorite }/>}
         >
             <Card.Meta
-                description={[typesString, abilitiesString].join(', ')}
+                description={
+                    <>  
+                        <b>TYPES:</b> {typesString}
+                        <br />
+                        <b>SKILLS:</b> {abilitiesString}
+                    </>
+                }
             />
 
         </Card>
