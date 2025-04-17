@@ -4,10 +4,11 @@ import StarButton from "./StarButton";
 import { useDispatch } from "react-redux";
 import { setFavorite } from "../actions";
 
-const PokemonCard = ({ name, image, types, id }) => {
+const PokemonCard = ({ name, image, abilities, types, id, favorite }) => {
     const dispatch = useDispatch();
     const typesString = types.map((elem) => elem.type.name).join(', ');
-    
+    const abilitiesString = abilities.map(ability => ability.ability.name).join(', ');
+
     const handleOnFavorite = () => {
         dispatch(setFavorite({ pokemonId:id }))
     }
@@ -20,10 +21,10 @@ const PokemonCard = ({ name, image, types, id }) => {
                     src={image} 
                 />
             }
-            extra={<StarButton isFavorite onClick={handleOnFavorite}/>}
+            extra={<StarButton isFavorite={ favorite } onClick={ handleOnFavorite }/>}
         >
             <Card.Meta
-                description={typesString}
+                description={[typesString, abilitiesString].join(', ')}
             />
 
         </Card>
