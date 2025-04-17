@@ -27,12 +27,13 @@ function App() {
         console.error('Error fetching Pokemon:', error);
         // Optionally set an error state
         //setError(error);
+      } finally {
+        dispatch(setLoading(false));
       }
-      dispatch(setLoading(false));
     }
     fetchPokemons();
 
-  }, []);
+  }, [dispatch]);
 
 
   return (

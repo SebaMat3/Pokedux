@@ -1,3 +1,4 @@
+//src/components/PokemonList.jsx
 import PokemonCard from './PokemonCard';
 import './PokemonList.css';
 
@@ -10,6 +11,8 @@ const PokemonList = ({ pokemons = [] }) => {
                         key={`pokemon-${pokemon.name}`}
                         name = {pokemon.name}
                         image={pokemon.sprites?.front_default}
+                        types={pokemon.types}
+                        id={pokemon.id}
                         //{...pokemon}
                     />
                 )
