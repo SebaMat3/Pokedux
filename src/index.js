@@ -6,7 +6,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 //import { pokemonsReducer } from './reducers/pokemons';
-import { rootReducers } from './reducers';
+import rootReducers  from './reducers/rootReducers';
 
 import { 
   compose,

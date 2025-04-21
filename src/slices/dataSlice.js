@@ -1,9 +1,31 @@
 //src/slices/dataSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getPokemonDetails, getPokemons } from '../api';
+import { setLoading } from './uiSlice';
 
 const initialState = {
-        pokemons: [],
+    pokemons: [],
 }
+
+export const fetchPokemonsWithDetails = createAsyncThunk(
+    'data/fetchPokemonsWithDetails',
+    async (_, { dispatch }) => {
+        dispatch(setLoading(true));
+        try {
+            const pokemonsRes = await getPokemons();
+            const pokemonsDetailed = await Promise.all(
+                pokemonsRes.map((pokemon) => getPokemonDetails(pokemon))
+            );
+            dispatch(setPokemons(pokemonsDetailed));
+            
+            
+        } catch (error) {
+            console.error('Error fetching Pokemon:', error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
+);
 
 export const dataSlice = createSlice({
     name: 'data',
@@ -12,17 +34,17 @@ export const dataSlice = createSlice({
         setPokemons: (state, action) => {
             state.pokemons = action.payload;
         },
-        setFavorite : (state, action) => {
+        setFavorite: (state, action) => {
             const currentPokemonIndex = state.pokemons.findIndex(
                 (pokemon) => {
                     return pokemon.id === action.payload.pokemonId;
-            });          
+                });
             if (currentPokemonIndex >= 0) {
                 const isFavorite = state.pokemons[currentPokemonIndex].favorite;
-                
+
                 state.pokemons[currentPokemonIndex].favorite = !isFavorite;
             }
-            
+
         }
     },
 });

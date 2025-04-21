@@ -5,39 +5,24 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Col, Spin } from 'antd';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { getPokemons } from './api';
-import { getPokemonWithDetails, setLoading } from './actions/index';
+import { fetchPokemonsWithDetails } from './slices/dataSlice';
 import logo from './statics/logo.svg';
 import './App.css';
 
 function App() {
-/*   
-  const pokemons = useSelector((state) => state.get('pokemons')).toJS();
-  const loading = useSelector((state) => state.get('loading')); */
 
-  const pokemons = useSelector((state) => state.getIn(['data','pokemons'], shallowEqual)).toJS();
-  const loading = useSelector((state) => state.getIn(['ui','loading'])); 
+  const pokemons = useSelector((state) => 
+    //state.getIn(['data','pokemons'], shallowEqual)).toJS();
+    state.data.pokemons, shallowEqual)
+
+  //Slice yet to be created  
+  const loading = useSelector((state) => state.ui.loading)
+    //state.getIn(['ui','loading'])); 
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchPokemons = async () => {
-      dispatch(setLoading(true));
-      try {
-        const pokemonsRes = await getPokemons();
-        dispatch(getPokemonWithDetails(pokemonsRes));
-        
-      } catch (error) {
-        // Handle the error appropriately here
-        console.error('Error fetching Pokemon:', error);
-        // Optionally set an error state
-        //setError(error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    }
-    fetchPokemons();
-
+    dispatch(fetchPokemonsWithDetails())
   }, [dispatch]);
 
 
