@@ -5,8 +5,10 @@ import { setLoading } from './uiSlice';
 
 const initialState = {
     pokemons: [],
+    searchTerm: ''
 }
 
+// Thunks
 export const fetchPokemonsWithDetails = createAsyncThunk(
     'data/fetchPokemonsWithDetails',
     async (_, { dispatch }) => {
@@ -27,12 +29,17 @@ export const fetchPokemonsWithDetails = createAsyncThunk(
     }
 );
 
+
+// Slice
 export const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
         setPokemons: (state, action) => {
             state.pokemons = action.payload;
+        },
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload.toLowerCase();
         },
         setFavorite: (state, action) => {
             const currentPokemonIndex = state.pokemons.findIndex(
@@ -49,6 +56,16 @@ export const dataSlice = createSlice({
     },
 });
 
-export const { setPokemons, setFavorite } = dataSlice.actions;
+// Actions
+export const { setPokemons, setFavorite, setSearchTerm } = dataSlice.actions;
 
+// Selectors
+export const getFilteredPokemons = (state) => {
+    const searchTerm = state.data.searchTerm;
+    return state.data.pokemons.filter(pokemon => 
+        pokemon.name.toLowerCase().includes(searchTerm)
+    );
+};
+
+// Reducer
 export default dataSlice.reducer;

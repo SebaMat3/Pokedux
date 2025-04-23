@@ -3,21 +3,18 @@
 import { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Col, Spin } from 'antd';
+import { fetchPokemonsWithDetails, getFilteredPokemons } from './slices/dataSlice';
 import Searcher from './components/Searcher';
 import PokemonList from './components/PokemonList';
-import { fetchPokemonsWithDetails } from './slices/dataSlice';
 import logo from './statics/logo.svg';
 import './App.css';
 
 function App() {
+  const pokemons = useSelector(getFilteredPokemons, shallowEqual);
+  //const pokemons = useSelector((state) => state.data.pokemons, shallowEqual)
 
-  const pokemons = useSelector((state) => 
-    //state.getIn(['data','pokemons'], shallowEqual)).toJS();
-    state.data.pokemons, shallowEqual)
-
-  //Slice yet to be created  
   const loading = useSelector((state) => state.ui.loading)
-    //state.getIn(['ui','loading'])); 
+
 
   const dispatch = useDispatch();
 
